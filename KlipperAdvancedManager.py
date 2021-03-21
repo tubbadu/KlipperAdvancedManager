@@ -65,7 +65,7 @@ def main():
 			#sono nel secondo schermo
 			pos = (pos[0] + screenSize[0], pos[1])
 		layout = [[sg.Checkbox("shift", default=False, key='--checkbox--', enable_events=True)],[sg.Listbox(values=clist, size=(30, 7), key='--listbox--', enable_events=True, font=(None, 12), no_scrollbar=True)]]
-		window = sg.Window('Klipper', layout, element_justification='center', return_keyboard_events=True, location=pos, size=(300, 185))
+		window = sg.Window('Klipper', layout, element_justification='center', return_keyboard_events=True, location=pos, size=(300, 215))
 		
 		while(True):
 			event, values = window.read()
