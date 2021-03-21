@@ -1,4 +1,12 @@
 # KlipperAdvancedManager
 
+# requirements
++ Klipper
++ python3
++ pyautogui
++ glob
++ PySimpleGUI
++ pyperclip
+
 ## TODO
-+ add shift+enter or shift+click to shiftpaste
+

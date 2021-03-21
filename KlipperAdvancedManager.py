@@ -33,10 +33,13 @@ def spawn_program_and_die(program, exit_code=0): #copiata lol
     # We have started the program, and can suspend this interpreter
     sys.exit(exit_code)
 
-def paste(ch):
+def paste(ch, shift=True):
+	if(shift):
+		flag = 'shift'
+	else:
+		flag = ''
 	pyperclip.copy(ch)
-	pyperclip.paste()
-	spawn_program_and_die(['python3', pastePath])
+	spawn_program_and_die(['python3', pastePath, flag])
 	exit()
 
 
@@ -61,11 +64,14 @@ def main():
 		if currentMouseX > screenSize[0]:
 			#sono nel secondo schermo
 			pos = (pos[0] + screenSize[0], pos[1])
-		layout = [[sg.Listbox(values=clist, size=(30, 7), key='--listbox--', enable_events=True, font=(None, 12), no_scrollbar=True)]]
+		layout = [[sg.Checkbox("shift", default=False, key='--checkbox--', enable_events=True)],[sg.Listbox(values=clist, size=(30, 7), key='--listbox--', enable_events=True, font=(None, 12), no_scrollbar=True)]]
 		window = sg.Window('Klipper', layout, element_justification='center', return_keyboard_events=True, location=pos, size=(300, 185))
 		
 		while(True):
 			event, values = window.read()
+			shift = values['--checkbox--']
+			if 'Shift' in event:
+				window['--checkbox--'].update(value = not shift)
 			clist = getlist(cliplist, index)
 			if 'Up' in event and index > 0:
 				index -= 1
@@ -77,14 +83,14 @@ def main():
 			if 'KP_Enter' in event or 'Return' in event:
 				ch = cliplist[index] #refreshList(txt)[0]
 				print(ch)
-				paste(ch)
+				paste(ch, shift)
 			elif event == sg.WINDOW_CLOSED or 'Escape' in event:
 				break
 			elif event == '--listbox--':
 				# è stato premuto un char!
 				ch = values['--listbox--'][0]
 				print(ch)
-				paste(ch)
+				paste(ch, shift)
 			
 			window['--listbox--'].update(values = clist)
 		window.close()
